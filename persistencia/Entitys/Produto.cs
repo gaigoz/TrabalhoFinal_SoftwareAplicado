@@ -9,7 +9,7 @@ namespace persistencia.Entitys
 
     public enum Status
     {
-        Em_Venda, Vendido, C, D, F
+        EmVenda, Vendido, C, D, F
     }
     internal class Produto
     {       
