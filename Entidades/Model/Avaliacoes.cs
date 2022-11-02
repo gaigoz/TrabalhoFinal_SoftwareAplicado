@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace persistencia.Entitys
+namespace Entidades.Model
 {
-    internal class Avaliacoes
+    public class Avaliacoes
     {
         public int ID { get; set; }
         public string Avaliacao { get; set; }
         public DateTime? AvaliacaoDate { get; set; }
+
+        public Venda Venda { get; set; }
 
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace persistencia.Entitys
+namespace Entidades.Model
 {
 
-    internal class Categoria
+    public class Categoria
     {
         public int ID { get; set; }
         public string Tipo { get; set; }

@@ -15,4 +15,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Seed\" />
+  </ItemGroup>
+
 </Project>

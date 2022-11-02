@@ -4,4 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DAO\" />
+    <Folder Include="DAOImplementation\" />
+  </ItemGroup>
+
 </Project>

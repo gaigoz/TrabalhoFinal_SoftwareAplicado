@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace persistencia.Entitys
+namespace Entidades.Model
 {
 
     public enum Status
     {
-        EmVenda, Vendido, C, D, F
+        EmVenda, Vendido, Disponivel, D, F
     }
-    internal class Produto
+    public class Produto
     {       
         public int ID { get; set; }
         public Status? Status { get; set; }
@@ -22,5 +22,14 @@ namespace persistencia.Entitys
         public string Local { get; set; }
         public decimal Price { get; set; }
         public DateTime Dt_Inclusion { get; set; }
+
+        //entidades
+
+        // precisa desses Ids?
+        public int CategoriaId { get; set; }
+        public Categoria Categoria { get; set; }
+
+        public int FaqId { get; set; }
+        public Faq Faq { get; set; }
     }
 }

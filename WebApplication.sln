@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{EBF59600-58F3-46E8-8F60-72AC9CFA5949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShop", "WebApplication\WebShop.csproj", "{EBF59600-58F3-46E8-8F60-72AC9CFA5949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persistencia", "persistencia\persistencia.csproj", "{D54E2224-0694-4AB1-9479-9D05CC021D01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "persistencia", "persistencia\persistencia.csproj", "{D54E2224-0694-4AB1-9479-9D05CC021D01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Negocio\Negocio.csproj", "{9391A462-09DF-4900-9855-F8BE6B3DB7EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Negocio", "Negocio\Negocio.csproj", "{9391A462-09DF-4900-9855-F8BE6B3DB7EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entidades", "Entidades\Entidades.csproj", "{9C583D47-AEEB-496C-97B3-E5EBCB4CC01C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{9391A462-09DF-4900-9855-F8BE6B3DB7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9391A462-09DF-4900-9855-F8BE6B3DB7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9391A462-09DF-4900-9855-F8BE6B3DB7EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C583D47-AEEB-496C-97B3-E5EBCB4CC01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C583D47-AEEB-496C-97B3-E5EBCB4CC01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C583D47-AEEB-496C-97B3-E5EBCB4CC01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C583D47-AEEB-496C-97B3-E5EBCB4CC01C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

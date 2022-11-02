@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace persistencia.Entitys
+namespace Entidades.Model
 {
-    internal class Venda
+    public class Venda
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
         public DateTime Data_Venda { get; set; }
         public DateTime Data_Entrega { get; set; }
+
+        public Produto Produto { get; set; }
 
     }
 }
