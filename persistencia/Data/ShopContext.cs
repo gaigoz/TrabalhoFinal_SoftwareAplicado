@@ -1,4 +1,5 @@
 ﻿using Entidades.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace persistencia.Data
 {
-    public class ShopContext : DbContext
+    public class ShopContext : IdentityDbContext<ApplicationUser>
     {
         public ShopContext(DbContextOptions<ShopContext> options) : base(options)
         {
@@ -37,15 +38,15 @@ namespace persistencia.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                  .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopContext;Trusted_Connection=True");
-                base.OnConfiguring(optionsBuilder);
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder
+        //          .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopContext;Trusted_Connection=True");
+        //        base.OnConfiguring(optionsBuilder);
+        //    }
+        //}
 
 
 
