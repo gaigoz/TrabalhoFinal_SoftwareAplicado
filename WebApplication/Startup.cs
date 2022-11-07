@@ -7,11 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using persistencia.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApplication.Data;
+
 
 namespace WebApplication
 {
@@ -29,14 +30,14 @@ namespace WebApplication
         {
             services.AddDistributedMemoryCache();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ShopContext>(options =>
                 options.UseSqlServer(
                      Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ShopContext>();
 
             services.AddControllersWithViews();
 
