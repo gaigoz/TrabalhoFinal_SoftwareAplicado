@@ -17,9 +17,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj" />
+    <ProjectReference Include="..\Negocio\Negocio.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DAOImpl\" />
     <Folder Include="Seed\" />
   </ItemGroup>
 

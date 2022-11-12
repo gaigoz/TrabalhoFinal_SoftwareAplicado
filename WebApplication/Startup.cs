@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Negocio.DAO;
+using Negocio.Service;
+using persistencia.DAOImpl;
 using persistencia.Data;
 using System;
 using System.Collections.Generic;
@@ -32,12 +35,16 @@ namespace WebApplication
 
             services.AddDbContext<ShopContext>(options =>
                 options.UseSqlServer(
-                     Configuration.GetConnectionString("DefaultConnection")));
+                     Configuration.GetConnectionString("ShopContext")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ShopContext>();
+
+            // ID da fachada da BL e repositorio (PL)
+            services.AddSingleton<FacadeClass, FacadeClass>();
+            services.AddSingleton<IProduto, PrdutoDAOImpl>();
 
             services.AddControllersWithViews();
 
@@ -48,6 +55,9 @@ namespace WebApplication
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+
+
 
             //essa parte é necessária?
             services.AddControllersWithViews();
@@ -76,7 +86,7 @@ namespace WebApplication
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSession();
+            //app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

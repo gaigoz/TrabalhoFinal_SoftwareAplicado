@@ -11,9 +11,12 @@ namespace persistencia.Data
 {
     public class ShopContext : IdentityDbContext<ApplicationUser>
     {
+        public ShopContext()
+        {
+        }
+
         public ShopContext(DbContextOptions<ShopContext> options) : base(options)
         {
-            //todo -popular banco de dados
         }
 
         public DbSet<Produto> Produtos { get; set; }
@@ -27,26 +30,21 @@ namespace persistencia.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Venda>.HasMany(object => object.Produto)
-            // como montar?
-            //modelBuilder.Seed();
-
-
             // associar a PK do Identity
             modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
 
             base.OnModelCreating(modelBuilder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder
-        //          .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopContext;Trusted_Connection=True");
-        //        base.OnConfiguring(optionsBuilder);
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                  .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopContext;Trusted_Connection=True");
+                base.OnConfiguring(optionsBuilder);
+            }
+        }
 
 
 

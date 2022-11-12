@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Entidades.Model;
 using persistencia.Data;
+using Negocio.Service;
+using Negocio.DAO;
+using persistencia.DAOImpl;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Controllers
 {
+    
     public class ProdutosController : Controller
     {
         private readonly ShopContext _context;
 
-        public ProdutosController(ShopContext context)
+        private readonly FacadeClass _negocio;
+
+        public ProdutosController(FacadeClass negocio, ShopContext context)
         {
             _context = context;
+            _negocio = negocio;
         }
 
         // GET: Produtos
@@ -57,19 +65,35 @@ namespace WebShop.Controllers
         // POST: Produtos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("ID,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId,FaqId")] Produto produto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(produto);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
+        //    ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
+        //    return View(produto);
+        //}
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId,FaqId")] Produto produto)
+        public async Task<IActionResult> Create([Bind("Name,Description,Local,Price")] Produto prod)
         {
-            if (ModelState.IsValid)
+            Produto novo = new Produto()
             {
-                _context.Add(produto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-            ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
-            return View(produto);
+                Name = prod.Name,
+                Description = prod.Description,
+                Price = prod.Price,
+                Local = prod.Local,
+            };
+
+            _negocio.AdicionaProduto(novo);
+
+            return View(prod);
         }
 
         // GET: Produtos/Edit/5
