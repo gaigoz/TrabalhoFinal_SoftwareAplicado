@@ -41,7 +41,7 @@ namespace persistencia.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                  .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopContext;Trusted_Connection=True");
+                  .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ShopDB;Trusted_Connection=True");
                 base.OnConfiguring(optionsBuilder);
             }
         }

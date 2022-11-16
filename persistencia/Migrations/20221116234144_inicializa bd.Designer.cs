@@ -10,8 +10,8 @@ using persistencia.Data;
 namespace persistencia.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20221107223744_inicial")]
-    partial class inicial
+    [Migration("20221116234144_inicializa bd")]
+    partial class inicializabd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,7 +156,12 @@ namespace persistencia.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProdutoID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ProdutoID");
 
                     b.ToTable("Faqs");
                 });
@@ -177,9 +182,6 @@ namespace persistencia.Migrations
                     b.Property<DateTime>("Dt_Inclusion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FaqId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Local")
                         .HasColumnType("nvarchar(max)");
 
@@ -195,8 +197,6 @@ namespace persistencia.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CategoriaId");
-
-                    b.HasIndex("FaqId");
 
                     b.ToTable("Produtos");
                 });
@@ -366,6 +366,13 @@ namespace persistencia.Migrations
                     b.Navigation("Venda");
                 });
 
+            modelBuilder.Entity("Entidades.Model.Faq", b =>
+                {
+                    b.HasOne("Entidades.Model.Produto", null)
+                        .WithMany("Faq")
+                        .HasForeignKey("ProdutoID");
+                });
+
             modelBuilder.Entity("Entidades.Model.Produto", b =>
                 {
                     b.HasOne("Entidades.Model.Categoria", "Categoria")
@@ -374,15 +381,7 @@ namespace persistencia.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entidades.Model.Faq", "Faq")
-                        .WithMany()
-                        .HasForeignKey("FaqId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Faq");
                 });
 
             modelBuilder.Entity("Entidades.Model.Venda", b =>
@@ -443,6 +442,11 @@ namespace persistencia.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entidades.Model.Produto", b =>
+                {
+                    b.Navigation("Faq");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,6 +29,9 @@ namespace persistencia.DAOImpl
                 Description = produto.Description,
                 Price = produto.Price,
                 Local = produto.Local,
+                Status = Status.Disponivel,
+                Dt_Inclusion = DateTime.Now,
+                CategoriaId = 1
             };
 
             _shopContext.Add(prod);

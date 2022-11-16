@@ -93,7 +93,9 @@ namespace WebShop.Controllers
 
             _negocio.AdicionaProduto(novo);
 
-            return View(prod);
+            //return View(prod);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Produtos/Edit/5
@@ -110,7 +112,7 @@ namespace WebShop.Controllers
                 return NotFound();
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-            ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
+           // ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
             return View(produto);
         }
 
@@ -147,7 +149,7 @@ namespace WebShop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-            ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
+          //  ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
             return View(produto);
         }
 

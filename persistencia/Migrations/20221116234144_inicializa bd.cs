@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace persistencia.Migrations
 {
-    public partial class inicial : Migration
+    public partial class inicializabd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,20 +62,6 @@ namespace persistencia.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Faqs",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateFaq = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Faqs", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,8 +182,7 @@ namespace persistencia.Migrations
                     Local = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Dt_Inclusion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CategoriaId = table.Column<int>(type: "int", nullable: false),
-                    FaqId = table.Column<int>(type: "int", nullable: false)
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,12 +193,27 @@ namespace persistencia.Migrations
                         principalTable: "Categorias",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Faqs",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateFaq = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProdutoID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faqs", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Produtos_Faqs_FaqId",
-                        column: x => x.FaqId,
-                        principalTable: "Faqs",
+                        name: "FK_Faqs_Produtos_ProdutoID",
+                        column: x => x.ProdutoID,
+                        principalTable: "Produtos",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,14 +302,14 @@ namespace persistencia.Migrations
                 column: "VendaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Faqs_ProdutoID",
+                table: "Faqs",
+                column: "ProdutoID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Produtos_CategoriaId",
                 table: "Produtos",
                 column: "CategoriaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produtos_FaqId",
-                table: "Produtos",
-                column: "FaqId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vendas_ProdutoID",
@@ -338,6 +338,9 @@ namespace persistencia.Migrations
                 name: "Avaliacoes");
 
             migrationBuilder.DropTable(
+                name: "Faqs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -351,9 +354,6 @@ namespace persistencia.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categorias");
-
-            migrationBuilder.DropTable(
-                name: "Faqs");
         }
     }
 }
