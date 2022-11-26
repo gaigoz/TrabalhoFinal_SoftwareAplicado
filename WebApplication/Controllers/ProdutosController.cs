@@ -81,17 +81,11 @@ namespace WebShop.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Description,Local,Price")] Produto prod)
+        public async Task<IActionResult> Create([Bind("Name,Description,Local,Price,CategoriaId")] Produto prod)
         {
-            Produto novo = new Produto()
-            {
-                Name = prod.Name,
-                Description = prod.Description,
-                Price = prod.Price,
-                Local = prod.Local,
-            };
 
-            _negocio.AdicionaProduto(novo);
+            _negocio.AdicionaProduto(prod);
+            await _context.SaveChangesAsync();
 
             //return View(prod);
 

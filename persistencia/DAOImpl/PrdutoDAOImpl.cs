@@ -23,20 +23,10 @@ namespace persistencia.DAOImpl
 
         public Produto adicionarProduto(Produto produto)
         {
-            Produto prod = new Produto()
-            {
-                Name = produto.Name,
-                Description = produto.Description,
-                Price = produto.Price,
-                Local = produto.Local,
-                Status = Status.Disponivel,
-                Dt_Inclusion = DateTime.Now,
-                CategoriaId = 1
-            };
 
-            _shopContext.Add(prod);
+            _shopContext.Add(produto);
             _shopContext.SaveChanges();
-            return prod;
+            return produto;
 
         }
 
