@@ -39,7 +39,7 @@
                 @Html.DisplayNameFor(model => model.Dt_Inclusion)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Categoria)
+                @Html.DisplayNameFor(model => model.Categoria.Descricao)
             </th>
 @*            <th>
                 @Html.DisplayNameFor(model => model.Faq)
@@ -69,7 +69,7 @@
                 @Html.DisplayFor(modelItem => item.Dt_Inclusion)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Descricao)
+                @Html.DisplayFor(modelItem => item.Categoria)
             </td>
    
             <td>
