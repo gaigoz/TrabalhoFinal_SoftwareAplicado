@@ -28,11 +28,29 @@ namespace WebShop.Controllers
         }
 
         // GET: Produtos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var shopContext = _context.Produtos.Include(p => p.Categoria).Include(p => p.Faq);
-            return View(await shopContext.ToListAsync());
+            //var shopContext = _context.Produtos.Include(p => p.Categoria).Include(p => p.Faq);
+            //return View(await shopContext.ToListAsync());
+
+            if (_context.Produtos == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            }
+
+            var movies = from m in _context.Produtos
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Name!.Contains(searchString));
+            }
+
+            return View(await movies.ToListAsync());
+
         }
+
+
 
         // GET: Produtos/Details/5
         public async Task<IActionResult> Details(int? id)
