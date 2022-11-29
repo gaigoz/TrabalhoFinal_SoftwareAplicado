@@ -39,11 +39,8 @@
                 @Html.DisplayNameFor(model => model.Dt_Inclusion)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Categoria.Descricao)
+                @Html.DisplayNameFor(model => model.Categoria)
             </th>
-@*            <th>
-                @Html.DisplayNameFor(model => model.Faq)
-            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -69,13 +66,12 @@
                 @Html.DisplayFor(modelItem => item.Dt_Inclusion)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria)
+                @Html.DisplayFor(modelItem => item.Categoria.CategoriaId)
             </td>
-   
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ProdutoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProdutoId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProdutoId">Delete</a>
             </td>
         </tr>
 }

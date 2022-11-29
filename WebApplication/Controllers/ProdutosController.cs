@@ -8,13 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Entidades.Model;
 using persistencia.Data;
 using Negocio.Service;
-using Negocio.DAO;
-using persistencia.DAOImpl;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Controllers
 {
-    
     public class ProdutosController : Controller
     {
         private readonly ShopContext _context;
@@ -27,10 +23,10 @@ namespace WebShop.Controllers
             _negocio = negocio;
         }
 
-        // GET: Produtos
+        // GET: Produtoes
         public async Task<IActionResult> Index(string searchString)
         {
-            //var shopContext = _context.Produtos.Include(p => p.Categoria).Include(p => p.Faq);
+            //var shopContext = _context.Produtos.Include(p => p.Categoria);
             //return View(await shopContext.ToListAsync());
 
             if (_context.Produtos == null)
@@ -47,12 +43,9 @@ namespace WebShop.Controllers
             }
 
             return View(await movies.ToListAsync());
-
         }
 
-
-
-        // GET: Produtos/Details/5
+        // GET: Produtoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -62,8 +55,7 @@ namespace WebShop.Controllers
 
             var produto = await _context.Produtos
                 .Include(p => p.Categoria)
-                .Include(p => p.Faq)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -72,33 +64,18 @@ namespace WebShop.Controllers
             return View(produto);
         }
 
-        // GET: Produtos/Create
+        // GET: Produtoes/Create
         public IActionResult Create()
         {
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID");
-            ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID");
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId");
             return View();
         }
 
-        // POST: Produtos/Create
+        // POST: Produtoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("ID,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId,FaqId")] Produto produto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(produto);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-        //    ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
-        //    return View(produto);
-        //}
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Description,Local,Price,CategoriaId")] Produto prod)
         {
 
@@ -110,7 +87,7 @@ namespace WebShop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Produtos/Edit/5
+        // GET: Produtoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,19 +100,18 @@ namespace WebShop.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-           // ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId", produto.CategoriaId);
             return View(produto);
         }
 
-        // POST: Produtos/Edit/5
+        // POST: Produtoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId,FaqId")] Produto produto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProdutoId,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId")] Produto produto)
         {
-            if (id != produto.ID)
+            if (id != produto.ProdutoId)
             {
                 return NotFound();
             }
@@ -149,7 +125,7 @@ namespace WebShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.ID))
+                    if (!ProdutoExists(produto.ProdutoId))
                     {
                         return NotFound();
                     }
@@ -160,12 +136,11 @@ namespace WebShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "ID", "ID", produto.CategoriaId);
-          //  ViewData["FaqId"] = new SelectList(_context.Faqs, "ID", "ID", produto.FaqId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId", produto.CategoriaId);
             return View(produto);
         }
 
-        // GET: Produtos/Delete/5
+        // GET: Produtoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -175,8 +150,7 @@ namespace WebShop.Controllers
 
             var produto = await _context.Produtos
                 .Include(p => p.Categoria)
-                .Include(p => p.Faq)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -185,7 +159,7 @@ namespace WebShop.Controllers
             return View(produto);
         }
 
-        // POST: Produtos/Delete/5
+        // POST: Produtoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -198,7 +172,28 @@ namespace WebShop.Controllers
 
         private bool ProdutoExists(int id)
         {
-            return _context.Produtos.Any(e => e.ID == id);
+            return _context.Produtos.Any(e => e.ProdutoId == id);
+        }
+
+        public async Task<IActionResult> AddReview(int ProdutoId, string revString)
+        {
+            //var usuario = await _userManager.GetUserAsync(User);
+
+            //ViewBag.Id = usuario.Id;
+            //ViewBag.UserName = usuario.UserName;
+
+            Faq novo = new Faq()
+            {
+                Coment = revString,
+                //User = usuario.UserName,
+                ProdutoId = ProdutoId
+            };
+
+            _negocio.addReview(novo);
+
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Produtos", new { Id = ProdutoId });
+
         }
     }
 }

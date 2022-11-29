@@ -8,9 +8,11 @@ namespace Entidades.Model
 {
     public class Faq
     {
-        public int ID { get; set; }
-        public string Descricao { get; set; }
-        //imagem aqui
-        public DateTime DateFaq { get; set; }
+        public int FaqID { get; set; }
+        public string Coment { get; set; }
+        // nao vai ter imagem
+
+        public int ProdutoId { get; set; }
+        public Produto Produto { get; set; }
     }
 }

@@ -26,5 +26,10 @@ namespace Negocio.Service
         {
             _daoProduto.adicionarProduto(prod);
         }
+
+        public void addReview(Faq rev)
+        {
+            _daoProduto.addReview(rev);
+        }
     }
 }

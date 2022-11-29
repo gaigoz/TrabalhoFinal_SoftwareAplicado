@@ -13,7 +13,7 @@ namespace Entidades.Model
     }
     public class Produto
     {       
-        public int ID { get; set; }
+        public int ProdutoId { get; set; }
         public Status? Status { get; set; }
         public string Name { get; set; }
         //titulo do produto?
@@ -29,6 +29,6 @@ namespace Entidades.Model
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
 
-        public List<Faq> Faq { get; set; }
+        public virtual ICollection<Faq> Faqs { get; set; }
     }
 }
