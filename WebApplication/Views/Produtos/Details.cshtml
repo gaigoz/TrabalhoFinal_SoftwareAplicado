@@ -1,5 +1,11 @@
 ﻿@model Entidades.Model.Produto
 
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Entidades.Model.ApplicationUser> SignInManager
+@inject UserManager<Entidades.Model.ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -61,6 +67,23 @@
 
 @*View não esta funcionando para exibir Faqs*@
 
+    <h3>Reviews</h3>
+@*@foreach (Entidades.Model.Faq rev in Model.Faqs)*@
+@*    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @rev.User
+            </dt>
+            <dt class="col-sm-2">
+                @rev.Coment
+            </dt>
+        </dl>
+
+    }*@
+
+
+@if (SignInManager.IsSignedIn(User))
+{
 <form asp-controller="Produtos" asp-action="AddReview">
     <p>
 
@@ -70,4 +93,9 @@
 
         <input type="submit" value="Enviar" />
     </p>
+</form>
+}
+
+<form asp-controller="Produtos"  asp-action="Comprar" style="margin: 50px 15px;">
+    <input type="submit" value="Comprar" class="btn-success" asp-controller="Produtos" asp-action="Comprar" asp-route-id="@Model.ProdutoId" />
 </form>

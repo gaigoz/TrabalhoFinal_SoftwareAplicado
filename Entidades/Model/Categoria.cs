@@ -11,6 +11,7 @@ namespace Entidades.Model
     {
         public int CategoriaId { get; set; }
         public string Tipo { get; set; }
+        //retirar descricao
         public string Descricao { get; set; }
     }
 }

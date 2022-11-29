@@ -9,6 +9,10 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<ol>
+    <li> <a asp-action="dadosUsuario">Dados usuário</a></li>
+</ol>
+
 
 <form asp-controller="Produtos" asp-action="Index">
     <p>
@@ -66,7 +70,7 @@
                 @Html.DisplayFor(modelItem => item.Dt_Inclusion)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.CategoriaId)
+                @Html.DisplayFor(modelItem => item.Categoria)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProdutoId">Edit</a> |

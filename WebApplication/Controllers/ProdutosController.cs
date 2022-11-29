@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Entidades.Model;
 using persistencia.Data;
 using Negocio.Service;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Controllers
 {
@@ -17,13 +19,17 @@ namespace WebShop.Controllers
 
         private readonly FacadeClass _negocio;
 
-        public ProdutosController(FacadeClass negocio, ShopContext context)
+        public readonly UserManager<ApplicationUser> _userManager;
+
+        public ProdutosController(FacadeClass negocio, ShopContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
             _negocio = negocio;
         }
 
         // GET: Produtoes
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string searchString)
         {
             //var shopContext = _context.Produtos.Include(p => p.Categoria);
@@ -39,13 +45,18 @@ namespace WebShop.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(s => s.Name!.Contains(searchString));
+                movies = movies.Where(s => s.Name!.Contains(searchString)
+                                        || s.Description.Contains(searchString) 
+                                        || s.Local.Contains(searchString)
+                                        || s.Price.ToString().Contains(searchString));
+
             }
 
             return View(await movies.ToListAsync());
         }
 
         // GET: Produtoes/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,6 +76,7 @@ namespace WebShop.Controllers
         }
 
         // GET: Produtoes/Create
+        [AllowAnonymous]
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId");
@@ -76,6 +88,7 @@ namespace WebShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create([Bind("Name,Description,Local,Price,CategoriaId")] Produto prod)
         {
 
@@ -88,6 +101,7 @@ namespace WebShop.Controllers
         }
 
         // GET: Produtoes/Edit/5
+        [AllowAnonymous]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,6 +123,7 @@ namespace WebShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Edit(int id, [Bind("ProdutoId,Status,Name,Description,Local,Price,Dt_Inclusion,CategoriaId")] Produto produto)
         {
             if (id != produto.ProdutoId)
@@ -141,6 +156,7 @@ namespace WebShop.Controllers
         }
 
         // GET: Produtoes/Delete/5
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -162,6 +178,7 @@ namespace WebShop.Controllers
         // POST: Produtoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var produto = await _context.Produtos.FindAsync(id);
@@ -177,10 +194,10 @@ namespace WebShop.Controllers
 
         public async Task<IActionResult> AddReview(int ProdutoId, string revString)
         {
-            //var usuario = await _userManager.GetUserAsync(User);
+            var usuario = await _userManager.GetUserAsync(User);
 
-            //ViewBag.Id = usuario.Id;
-            //ViewBag.UserName = usuario.UserName;
+            ViewBag.Id = usuario.Id;
+            ViewBag.UserName = usuario.UserName;
 
             Faq novo = new Faq()
             {
@@ -193,6 +210,33 @@ namespace WebShop.Controllers
 
             //return RedirectToAction(nameof(Index));
             return RedirectToAction("Details", "Produtos", new { Id = ProdutoId });
+
+        }
+
+        public async Task<IActionResult> Comprar(int id)
+        {
+            var venda = new Venda();
+
+            var produto = await _context.Produtos.FindAsync(id);
+            if (produto == null)
+            {
+                return NotFound();
+            }
+
+             venda.Produto = produto;
+
+            _negocio.Comprar(venda);
+             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> dadosUsuario()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            ViewBag.Id = usuario.Id;
+            ViewBag.UserName = usuario.UserName;
+
+            return View();
 
         }
     }

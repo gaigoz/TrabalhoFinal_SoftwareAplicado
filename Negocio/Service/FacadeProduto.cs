@@ -31,5 +31,10 @@ namespace Negocio.Service
         {
             _daoProduto.addReview(rev);
         }
+
+        public void Comprar(Venda venda)
+        {
+            _daoProduto.Comprar(venda); 
+        }
     }
 }

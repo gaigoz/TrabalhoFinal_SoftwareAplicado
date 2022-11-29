@@ -14,6 +14,8 @@ namespace Negocio.DAO
         Produto getPrudotoPorID(int id);
         void addReview(Faq rev);
 
+        void Comprar(Venda venda);
+
 
     }
 }

@@ -45,5 +45,11 @@ namespace persistencia.DAOImpl
             _shopContext.Faqs.Add(rev);
             _shopContext.SaveChanges();
         }
+
+        public void Comprar(Venda venda)
+        {
+            _shopContext.Vendas.Add(venda);
+            _shopContext.SaveChanges();
+        }
     }
 }
