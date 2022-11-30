@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Entidades.Model.Venda>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>Vendas</h1>
+
+<h3>Reviews</h3>
+@foreach (Entidades.Model.Venda rev in Model)
+{
+<dl class="row">
+    <dt class="col-sm-2">
+        @rev.Data_Entrega
+    </dt>
+    <dt class="col-sm-2">
+        @rev.Data_Venda
+    </dt>
+    <dt class="col-sm-2">
+        @rev.VendaId
+    </dt>
+</dl>}*

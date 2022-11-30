@@ -39,5 +39,17 @@ namespace persistencia.DAOImpl
         {
            return _shopContext.Produtos.ToList<Produto>();
         }
+
+        public void addReview(Faq rev)
+        {
+            _shopContext.Faqs.Add(rev);
+            _shopContext.SaveChanges();
+        }
+
+        public void Comprar(Venda venda)
+        {
+            _shopContext.Vendas.Add(venda);
+            _shopContext.SaveChanges();
+        }
     }
 }

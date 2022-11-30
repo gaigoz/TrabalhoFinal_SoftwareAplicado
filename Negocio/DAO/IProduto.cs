@@ -12,6 +12,9 @@ namespace Negocio.DAO
         List<Produto> todos();
         Produto adicionarProduto(Produto prod);
         Produto getPrudotoPorID(int id);
+        void addReview(Faq rev);
+
+        void Comprar(Venda venda);
 
 
     }

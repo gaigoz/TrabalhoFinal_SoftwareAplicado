@@ -48,7 +48,6 @@ namespace WebShop.Controllers
                 movies = movies.Where(s => s.Name!.Contains(searchString)
                                         || s.Description.Contains(searchString) 
                                         || s.Local.Contains(searchString)
-                                        || s.Local.Contains(searchString)
                                         || s.Price.ToString().Contains(searchString));
 
             }
@@ -100,8 +99,6 @@ namespace WebShop.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-   
 
         // GET: Produtoes/Edit/5
         [AllowAnonymous]
@@ -217,17 +214,17 @@ namespace WebShop.Controllers
 
         }
 
-        public async Task<IActionResult> Comprar(int ProdutoId)
+        public async Task<IActionResult> Comprar(int id)
         {
+            var venda = new Venda();
 
-
-            Venda venda = new Venda()
+            var produto = await _context.Produtos.FindAsync(id);
+            if (produto == null)
             {
-                ProdutoId = ProdutoId,
-                Data_Entrega = DateTime.Now.AddDays(10),
-                Data_Venda = DateTime.Now,
-            };
+                return NotFound();
+            }
 
+             venda.Produto = produto;
 
             _negocio.Comprar(venda);
              return RedirectToAction(nameof(Index));
@@ -240,7 +237,7 @@ namespace WebShop.Controllers
             ViewBag.Id = usuario.Id;
             ViewBag.UserName = usuario.UserName;
 
-            return View(usuario);
+            return View();
 
         }
     }

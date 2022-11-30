@@ -10,8 +10,8 @@ using persistencia.Data;
 namespace persistencia.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20221116234144_inicializa bd")]
-    partial class inicializabd
+    [Migration("20221130191945_testes")]
+    partial class testes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,7 +104,7 @@ namespace persistencia.Migrations
 
             modelBuilder.Entity("Entidades.Model.Avaliacoes", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("AvaliacoesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -115,19 +115,19 @@ namespace persistencia.Migrations
                     b.Property<DateTime?>("AvaliacaoDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("VendaID")
+                    b.Property<int?>("VendaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("AvaliacoesId");
 
-                    b.HasIndex("VendaID");
+                    b.HasIndex("VendaId");
 
                     b.ToTable("Avaliacoes");
                 });
 
             modelBuilder.Entity("Entidades.Model.Categoria", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -138,37 +138,37 @@ namespace persistencia.Migrations
                     b.Property<string>("Tipo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("CategoriaId");
 
                     b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("Entidades.Model.Faq", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("FaqID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateFaq")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
+                    b.Property<string>("Coment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProdutoID")
+                    b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ProdutoID");
+                    b.HasKey("FaqID");
+
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("Faqs");
                 });
 
             modelBuilder.Entity("Entidades.Model.Produto", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("ProdutoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -194,7 +194,7 @@ namespace persistencia.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("ProdutoId");
 
                     b.HasIndex("CategoriaId");
 
@@ -203,7 +203,7 @@ namespace persistencia.Migrations
 
             modelBuilder.Entity("Entidades.Model.Venda", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("VendaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data_Entrega")
@@ -212,12 +212,12 @@ namespace persistencia.Migrations
                     b.Property<DateTime>("Data_Venda")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProdutoID")
+                    b.Property<int?>("ProdutoId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("VendaId");
 
-                    b.HasIndex("ProdutoID");
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("Vendas");
                 });
@@ -361,16 +361,20 @@ namespace persistencia.Migrations
                 {
                     b.HasOne("Entidades.Model.Venda", "Venda")
                         .WithMany()
-                        .HasForeignKey("VendaID");
+                        .HasForeignKey("VendaId");
 
                     b.Navigation("Venda");
                 });
 
             modelBuilder.Entity("Entidades.Model.Faq", b =>
                 {
-                    b.HasOne("Entidades.Model.Produto", null)
-                        .WithMany("Faq")
-                        .HasForeignKey("ProdutoID");
+                    b.HasOne("Entidades.Model.Produto", "Produto")
+                        .WithMany("Faqs")
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("Entidades.Model.Produto", b =>
@@ -388,7 +392,7 @@ namespace persistencia.Migrations
                 {
                     b.HasOne("Entidades.Model.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoID");
+                        .HasForeignKey("ProdutoId");
 
                     b.Navigation("Produto");
                 });
@@ -446,7 +450,7 @@ namespace persistencia.Migrations
 
             modelBuilder.Entity("Entidades.Model.Produto", b =>
                 {
-                    b.Navigation("Faq");
+                    b.Navigation("Faqs");
                 });
 #pragma warning restore 612, 618
         }

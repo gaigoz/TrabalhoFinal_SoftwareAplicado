@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace persistencia.Migrations
 {
-    public partial class inicializabd : Migration
+    public partial class mudando : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,14 +54,14 @@ namespace persistencia.Migrations
                 name: "Categorias",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Tipo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorias", x => x.ID);
+                    table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,7 +174,7 @@ namespace persistencia.Migrations
                 name: "Produtos",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    ProdutoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -186,12 +186,12 @@ namespace persistencia.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produtos", x => x.ID);
+                    table.PrimaryKey("PK_Produtos", x => x.ProdutoId);
                     table.ForeignKey(
                         name: "FK_Produtos_Categorias_CategoriaId",
                         column: x => x.CategoriaId,
                         principalTable: "Categorias",
-                        principalColumn: "ID",
+                        principalColumn: "CategoriaId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -199,40 +199,39 @@ namespace persistencia.Migrations
                 name: "Faqs",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    FaqID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateFaq = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProdutoID = table.Column<int>(type: "int", nullable: true)
+                    Coment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProdutoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Faqs", x => x.ID);
+                    table.PrimaryKey("PK_Faqs", x => x.FaqID);
                     table.ForeignKey(
-                        name: "FK_Faqs_Produtos_ProdutoID",
-                        column: x => x.ProdutoID,
+                        name: "FK_Faqs_Produtos_ProdutoId",
+                        column: x => x.ProdutoId,
                         principalTable: "Produtos",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ProdutoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Vendas",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    VendaId = table.Column<int>(type: "int", nullable: false),
                     Data_Venda = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Data_Entrega = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProdutoID = table.Column<int>(type: "int", nullable: true)
+                    ProdutoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendas", x => x.ID);
+                    table.PrimaryKey("PK_Vendas", x => x.VendaId);
                     table.ForeignKey(
-                        name: "FK_Vendas_Produtos_ProdutoID",
-                        column: x => x.ProdutoID,
+                        name: "FK_Vendas_Produtos_ProdutoId",
+                        column: x => x.ProdutoId,
                         principalTable: "Produtos",
-                        principalColumn: "ID",
+                        principalColumn: "ProdutoId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -240,20 +239,20 @@ namespace persistencia.Migrations
                 name: "Avaliacoes",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    AvaliacoesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Avaliacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvaliacaoDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    VendaID = table.Column<int>(type: "int", nullable: true)
+                    VendaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Avaliacoes", x => x.ID);
+                    table.PrimaryKey("PK_Avaliacoes", x => x.AvaliacoesId);
                     table.ForeignKey(
-                        name: "FK_Avaliacoes_Vendas_VendaID",
-                        column: x => x.VendaID,
+                        name: "FK_Avaliacoes_Vendas_VendaId",
+                        column: x => x.VendaId,
                         principalTable: "Vendas",
-                        principalColumn: "ID",
+                        principalColumn: "VendaId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -297,14 +296,14 @@ namespace persistencia.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Avaliacoes_VendaID",
+                name: "IX_Avaliacoes_VendaId",
                 table: "Avaliacoes",
-                column: "VendaID");
+                column: "VendaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Faqs_ProdutoID",
+                name: "IX_Faqs_ProdutoId",
                 table: "Faqs",
-                column: "ProdutoID");
+                column: "ProdutoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produtos_CategoriaId",
@@ -312,9 +311,9 @@ namespace persistencia.Migrations
                 column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendas_ProdutoID",
+                name: "IX_Vendas_ProdutoId",
                 table: "Vendas",
-                column: "ProdutoID");
+                column: "ProdutoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -8,7 +8,7 @@ namespace Entidades.Model
 {
     public class Avaliacoes
     {
-        public int ID { get; set; }
+        public int AvaliacoesId { get; set; }
         public string Avaliacao { get; set; }
         public DateTime? AvaliacaoDate { get; set; }
 

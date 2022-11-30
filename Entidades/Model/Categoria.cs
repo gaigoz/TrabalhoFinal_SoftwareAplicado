@@ -9,8 +9,9 @@ namespace Entidades.Model
 
     public class Categoria
     {
-        public int ID { get; set; }
+        public int CategoriaId { get; set; }
         public string Tipo { get; set; }
+        //retirar descricao
         public string Descricao { get; set; }
     }
 }

@@ -10,11 +10,11 @@ namespace Entidades.Model
     public class Venda
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
+        public int VendaId { get; set; }
         public DateTime Data_Venda { get; set; }
         public DateTime Data_Entrega { get; set; }
 
-        public Produto Produto { get; set; }
+        public int ProdutoId { get; set; }
 
     }
 }
